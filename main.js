@@ -21,6 +21,20 @@ drawDot(B, "B")
 drawDot(C, "C")
 drawDot(D, "D")
 
+
+const t =  0.5
+const lerp  = (A,B,t) => {
+    return A+(B-A)*t;
+}
+const M={
+    x:lerp(A.x, B.x, t),
+    y:lerp(A.y, B.y, t)
+}
+console.log
+
+drawDot(M,'M')
+
+
 function drawDot(point, label){
     ctx.beginPath();
     ctx.fillStyle = 'white';
