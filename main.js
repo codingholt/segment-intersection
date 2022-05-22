@@ -9,35 +9,66 @@ const D={x:250, y:200};
 
 const ctx = canvas.getContext('2d')
 
-ctx.moveTo(A.x, A.y);
-ctx.lineTo(B.x, B.y);
-ctx.moveTo(C.x, C.y);
-ctx.lineTo(D.x, D.y);
-ctx.stroke();
+const mouse = {x:0,y:0};
+document.onmousemove = (event)=>{
+    mouse.x = event.x;
+    mouse.y = event.y
+}
+animate();
+
+function animate(){
+    const radius = 50;
+
+    A.x=mouse.x;
+    A.y=mouse.y-radius;
+    B.x=mouse.x;
+    B.y=mouse.y+radius;
+    
+    
+    ctx.clearRect(0,0,canvas.width,canvas.height)
+    ctx.moveTo(A.x, A.y);
+    ctx.lineTo(B.x, B.y);
+    ctx.moveTo(C.x, C.y);
+    ctx.lineTo(D.x, D.y);
+    ctx.stroke();
+    
+    
+    drawDot(A, "A")
+    drawDot(B, "B")
+    drawDot(C, "C")
+    drawDot(D, "D")
 
 
-drawDot(A, "A")
-drawDot(B, "B")
-drawDot(C, "C")
-drawDot(D, "D")
 
+    const I = getIntersection(A,B,C,D)
 
-const t =  0.5
-const lerp  = (A,B,t) => {
+    
+    drawDot(I,"I")
+
+    requestAnimationFrame(animate)
+}
+
+function getIntersection(A,B,C,D){
+    const top  = (D.x-C.x)*(A.y-C.y)-(D.y-C.y)*(A.x-C.x);
+    const bottom =  (D.y-C.y)*(B.x-A.x)-(D.x-C.x)*(B.y-A.y)
+
+    const t=top/bottom;
+
+    return {
+        x:lerp(A.x,B.x,t),
+        y:lerp(A.y,B.y,t)
+    }
+
+}
+    
+function lerp (A,B,t) {
     return A+(B-A)*t;
 }
-const M={
-    x:lerp(A.x, B.x, t),
-    y:lerp(A.y, B.y, t)
-}
-console.log
-
-drawDot(M,'M')
 
 
-function drawDot(point, label){
+function drawDot(point, label, isRed){
     ctx.beginPath();
-    ctx.fillStyle = 'white';
+    ctx.fillStyle =isRed? 'red' : 'white';
     ctx.arc(point.x, point.y, 10, 0, Math.PI*2)
     ctx.fill();
     ctx.stroke();
