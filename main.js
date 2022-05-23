@@ -4,11 +4,13 @@ canvas.width = window.innerWidth
 
 const A={x:200, y:150};
 const B={x:150, y:250};
-const C={x:50, y:100};
-const D={x:250, y:200};
+const C={x:75, y:100};
+const D={x:150, y:150};
 
 const ctx = canvas.getContext('2d')
 let angle  = 0;
+let Nangle = 0;
+
 const mouse = {x:0,y:0};
 document.onmousemove = (event)=>{
     mouse.x = event.x;
@@ -23,8 +25,14 @@ function animate(){
     A.y=mouse.y-Math.sin(angle)*radius
     B.x=mouse.x-Math.cos(angle)*radius
     B.y=mouse.y+Math.sin(angle)*radius
-    angle+=0.02;
+
+    C.x=C.x+Math.cos(Nangle)
+    C.y=C.y-Math.sin(Nangle)
+    D.x=D.x-Math.cos(Nangle)
+    D.y=D.y+Math.sin(Nangle)
     
+    angle+=0.02;
+    Nangle+=0.05;
     ctx.clearRect(0,0,canvas.width,canvas.height)
     ctx.moveTo(A.x, A.y);
     ctx.lineTo(B.x, B.y);
