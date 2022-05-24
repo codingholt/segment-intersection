@@ -1,6 +1,6 @@
 const canvas = document.getElementById('myCanvas')
-canvas.height = window.innerHeight
-canvas.width = window.innerWidth
+canvas.height = window.innerHeight*0.75
+canvas.width = window.innerWidth*0.4
 
 const A={x:200, y:150};
 const B={x:150, y:250};
@@ -49,7 +49,7 @@ function animate(){
 
 
     const I = getIntersection(A,B,C,D)
-
+    console.table(I)
     
     if(I){
         drawDot(I,"I")
@@ -61,17 +61,23 @@ function getIntersection(A,B,C,D){
     const tTop  = (D.x-C.x)*(A.y-C.y)-(D.y-C.y)*(A.x-C.x);
     const uTop  = (C.y-A.y)*(A.x-B.x)-(C.x-A.x)*(A.y-B.y);
     const bottom =  (D.y-C.y)*(B.x-A.x)-(D.x-C.x)*(B.y-A.y);
+
+
     if(bottom != 0){
+       
         const t= tTop/bottom;
         const u= uTop/bottom;
         if(t>0 && t<=1 && u>0 && u<=1){
             return {
                 x:lerp(A.x,B.x,t),
                 y:lerp(A.y,B.y,t),
-                offset:t
+                t:t,
+    
             }
         }
     }
+
+    
     return null;
 
 }
